@@ -2,8 +2,30 @@ import { Helmet } from "react-helmet-async"
 import { Label } from "../../components/ui/label"
 import { Input } from "../../components/ui/input"
 import { Button } from "../../components/ui/button"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+
+const signInFormSchema = z.object({
+  username: z.string().min(1, "Enter a valid username"),
+  password: z.string().min(1, "Enter a valid password")
+})
+
+type SignInForm = z.infer<typeof signInFormSchema>
 
 export function SignIn() {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors }
+  } = useForm<SignInForm>({
+    resolver: zodResolver(signInFormSchema)
+  })
+
+  function handleSignIn(data: SignInForm) {
+    console.log("data: ", data)
+  }
+
   return (
     <>
       <Helmet title="Login" />
@@ -18,18 +40,46 @@ export function SignIn() {
             </p>
           </div>
 
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit(handleSignIn)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Your e-mail</Label>
-              <Input id="email" type="email" />
+              <Label htmlFor="username">Your username</Label>
+              <Input
+                id="username"
+                type="username"
+                {...register("username")}
+                data-error={errors.username ? true : false}
+                className="data-[error=true]:border-red-500"
+              />
+              {errors.username && (
+                <span
+                  data-testid="error-username"
+                  className="text-red-600 text-sm font-semibold"
+                >
+                  {errors.username.message}
+                </span>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Your password</Label>
-              <Input id="password" type="password" />
+              <Label htmlFor="password">Your password</Label>
+              <Input
+                id="password"
+                type="password"
+                {...register("password")}
+                data-error={errors.password ? true : false}
+                className="data-[error=true]:border-red-500"
+              />
+              {errors.password && (
+                <span
+                  data-testid="error-password"
+                  className="text-red-600 text-sm font-semibold"
+                >
+                  {errors.password.message}
+                </span>
+              )}
             </div>
 
-            <Button type="submit" className="w-full">
+            <Button disabled={isSubmitting} type="submit" className="w-full">
               Sign in
             </Button>
           </form>
