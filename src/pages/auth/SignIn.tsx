@@ -45,14 +45,14 @@ export function SignIn() {
               <Label htmlFor="username">Your username</Label>
               <Input
                 id="username"
-                type="username"
+                type="text"
                 {...register("username")}
                 data-error={errors.username ? true : false}
                 className="data-[error=true]:border-red-500"
               />
               {errors.username && (
                 <span
-                  data-testid="error-username"
+                  data-testid="error-message"
                   className="text-red-600 text-sm font-semibold"
                 >
                   {errors.username.message}
@@ -71,7 +71,7 @@ export function SignIn() {
               />
               {errors.password && (
                 <span
-                  data-testid="error-password"
+                  data-testid="error-message"
                   className="text-red-600 text-sm font-semibold"
                 >
                   {errors.password.message}
