@@ -4,9 +4,27 @@ import { PokemonCard } from "../../components/pokemonCard"
 import { usePokemonList } from "../../hooks/usePokemonList"
 import { Dialog } from "@radix-ui/react-dialog"
 import { PokemonDetail } from "../../components/pokemonDetail"
+import { PokemonPagination } from "../../components/pokemonPagination"
+import { z } from "zod"
+import { useSearchParams } from "react-router-dom"
 
 export function Dashboard() {
-  const { pokemonsList } = usePokemonList(1)
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const pageIndex = z.coerce
+    .number()
+    .transform(page => page - 1)
+    .parse(searchParams.get("page") ?? "1")
+  const itemsPerPage = 8
+
+  const { pokemonsList } = usePokemonList(pageIndex, itemsPerPage)
+
+  function handlePaginate(pageIndex: number) {
+    setSearchParams(state => {
+      state.set("page", (pageIndex + 1).toString())
+      return state
+    })
+  }
 
   return (
     <>
@@ -19,7 +37,7 @@ export function Dashboard() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {pokemonsList?.map(pokemon => (
+          {pokemonsList?.pokemonsDetails.map(pokemon => (
             <Dialog key={pokemon.id}>
               <PokemonCard
                 id={pokemon.id}
@@ -39,6 +57,13 @@ export function Dashboard() {
             </Dialog>
           ))}
         </div>
+
+        <PokemonPagination
+          totalCount={pokemonsList?.pokemonResults.count}
+          pageIndex={pageIndex}
+          perPage={itemsPerPage}
+          onPageChange={handlePaginate}
+        />
       </div>
     </>
   )

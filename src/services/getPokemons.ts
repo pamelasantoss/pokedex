@@ -2,7 +2,7 @@ import { api } from "../lib/axios"
 
 export interface PokemonListQuery {
   pageIndex: number
-  limit?: number
+  limit: number
 }
 
 export interface PokemonListResponse {
@@ -43,19 +43,21 @@ export interface PokemonDetailsResponse {
 
 export const getPokemonsList = async ({
   pageIndex,
-  limit = 8
+  limit
 }: PokemonListQuery) => {
-  const offset = pageIndex - 1
+  const offset = pageIndex
 
-  const pokemonsList = await api.get<PokemonListResponse>("pokemon", {
+  const pokemonList = await api.get<PokemonListResponse>("pokemon", {
     params: {
       offset,
       limit
     }
   })
 
+  const pokemonResults = pokemonList.data
+
   const pokemonsDetails: PokemonDetailsResponse[] = await Promise.all(
-    pokemonsList.data.results.map(async pokemon => {
+    pokemonList.data.results.map(async pokemon => {
       const pokemonResponse = await fetch(pokemon.url)
       const pokemonData = await pokemonResponse.json()
 
@@ -73,5 +75,8 @@ export const getPokemonsList = async ({
     })
   )
 
-  return pokemonsDetails
+  return {
+    pokemonResults,
+    pokemonsDetails
+  }
 }

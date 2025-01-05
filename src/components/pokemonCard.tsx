@@ -23,7 +23,7 @@ export function PokemonCard({ id, name, image }: PokemonCardProps) {
         <CardDescription>#{id}</CardDescription>
       </CardHeader>
       <CardContent className="flex align-middle justify-center h-[300px]">
-        <img src={image} alt="" className="max-w-max" />
+        <img src={image} alt="" className="max-w-[100%]" />
       </CardContent>
       <CardFooter>
         <DialogTrigger asChild>
