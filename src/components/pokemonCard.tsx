@@ -1,4 +1,3 @@
-import { PokemonDetail } from "./pokemonDetail"
 import { Button } from "./ui/button"
 import {
   Card,
@@ -8,32 +7,29 @@ import {
   CardHeader,
   CardTitle
 } from "./ui/card"
-import { Dialog, DialogTrigger } from "./ui/dialog"
+import { DialogTrigger } from "./ui/dialog"
 
-export function PokemonCard() {
+interface PokemonCardProps {
+  id: number | undefined
+  name: string
+  image: string
+}
+
+export function PokemonCard({ id, name, image }: PokemonCardProps) {
   return (
-    <Dialog>
-      <Card>
-        <CardHeader>
-          <CardTitle>Bulbasaur</CardTitle>
-          <CardDescription>#1</CardDescription>
-        </CardHeader>
-        <CardContent className="flex align-middle justify-center">
-          <img
-            src="https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/detail/001.png"
-            alt=""
-          />
-        </CardContent>
-        <CardFooter>
-          <DialogTrigger asChild>
-            <Button className="w-full">More details</Button>
-          </DialogTrigger>
-        </CardFooter>
-      </Card>
-      <PokemonDetail
-        name="Bulbasaur"
-        image="https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/detail/001.png"
-      />
-    </Dialog>
+    <Card>
+      <CardHeader>
+        <CardTitle className="capitalize">{name}</CardTitle>
+        <CardDescription>#{id}</CardDescription>
+      </CardHeader>
+      <CardContent className="flex align-middle justify-center h-[300px]">
+        <img src={image} alt="" className="max-w-max" />
+      </CardContent>
+      <CardFooter>
+        <DialogTrigger asChild>
+          <Button className="w-full">More details</Button>
+        </DialogTrigger>
+      </CardFooter>
+    </Card>
   )
 }
