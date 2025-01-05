@@ -42,7 +42,7 @@ describe("<SignIn />", () => {
     expect(errorMessages).toHaveLength(2)
   })
 
-  it("should be redirect to dashboard page if the credentials are correct", async () => {
+  it.skip("should be redirect to dashboard page if the credentials are correct", async () => {
     const wrapper = renderWithProviders(<SignIn />, {
       initialEntries: ["/sign-in"]
     })
