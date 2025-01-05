@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async"
 import { SearchForm } from "../../components/searchForm"
+import { PokemonCard } from "../../components/pokemonCard"
 
 export function Dashboard() {
   return (
@@ -10,6 +11,17 @@ export function Dashboard() {
 
         <div className="flex w-full">
           <SearchForm />
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <PokemonCard />
+          <PokemonCard />
+          <PokemonCard />
+          <PokemonCard />
+          <PokemonCard />
+          <PokemonCard />
+          <PokemonCard />
+          <PokemonCard />
         </div>
       </div>
     </>

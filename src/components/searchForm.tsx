@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
+import { Search } from "lucide-react"
 
 const searchFormSchema = z.object({
   query: z.string()
@@ -33,6 +34,7 @@ export function SearchForm() {
           {...register("query")}
         />
         <Button type="submit" disabled={!searchField}>
+          <Search className="h-5 w-5" />
           Search
         </Button>
       </div>
