@@ -4,6 +4,7 @@ import { z } from "zod"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
 import { Search } from "lucide-react"
+import { getPokemonByName } from "../services/getPokemonByName"
 
 const searchFormSchema = z.object({
   query: z.string()
@@ -19,7 +20,8 @@ export function SearchForm() {
   const searchField = watch("query")
 
   const handleSearchPokemon = async (data: SearchFormInputs) => {
-    console.log(data.query)
+    const getPokemon = await getPokemonByName({ name: data.query })
+    console.log(getPokemon)
   }
 
   return (
