@@ -6,16 +6,20 @@ import { Dialog } from "@radix-ui/react-dialog"
 import { PokemonDetail } from "../../components/pokemonDetail"
 import { PokemonPagination } from "../../components/pokemonPagination"
 import { z } from "zod"
-import { useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import { useAuth } from "../../hooks/useAuth"
 
 export function Dashboard() {
+  const { isAuthenticated } = useAuth()
+  const navigate = useNavigate()
+
   const [searchParams, setSearchParams] = useSearchParams()
 
   const pageIndex = z.coerce
     .number()
     .transform(page => page - 1)
     .parse(searchParams.get("page") ?? "1")
-  const itemsPerPage = 8
+  const itemsPerPage = 10
 
   const { pokemonsList } = usePokemonList(pageIndex, itemsPerPage)
 
@@ -24,6 +28,12 @@ export function Dashboard() {
       state.set("page", (pageIndex + 1).toString())
       return state
     })
+  }
+
+  if (!isAuthenticated) {
+    navigate("/sign-in")
+
+    return <p>Loading...</p>
   }
 
   return (
@@ -36,7 +46,7 @@ export function Dashboard() {
           <SearchForm />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-4">
           {pokemonsList?.pokemonsDetails.map(pokemon => (
             <Dialog key={pokemon.id}>
               <PokemonCard

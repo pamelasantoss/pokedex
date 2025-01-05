@@ -5,6 +5,8 @@ import { Button } from "../../components/ui/button"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../../hooks/useAuth"
 
 const signInFormSchema = z.object({
   username: z.string().min(1, "Enter a valid username"),
@@ -22,8 +24,28 @@ export function SignIn() {
     resolver: zodResolver(signInFormSchema)
   })
 
+  const { isAuthenticated } = useAuth()
+  const navigate = useNavigate()
+
   function handleSignIn(data: SignInForm) {
-    console.log("data: ", data)
+    const { username, password } = data
+
+    if (username === "admin" && password === "admin") {
+      const userData = {
+        username,
+        password
+      }
+
+      localStorage.setItem("user", JSON.stringify(userData))
+
+      navigate("/")
+    } else {
+      alert("Wrong credentials!")
+    }
+  }
+
+  if (isAuthenticated) {
+    navigate("/")
   }
 
   return (

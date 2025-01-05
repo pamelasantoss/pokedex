@@ -22,7 +22,7 @@ export function PokemonCard({ id, name, image }: PokemonCardProps) {
         <CardTitle className="capitalize">{name}</CardTitle>
         <CardDescription>#{id}</CardDescription>
       </CardHeader>
-      <CardContent className="flex align-middle justify-center h-[300px]">
+      <CardContent className="flex align-middle justify-center h-[150px]">
         <img src={image} alt="" className="max-w-[100%]" />
       </CardContent>
       <CardFooter>
