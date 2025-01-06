@@ -3,7 +3,7 @@ import { SignIn } from "../SignIn"
 import userEvent from "@testing-library/user-event"
 import { renderWithProviders } from "../../../testHelper"
 import { vi } from "vitest"
-import { useNavigate } from "react-router-dom"
+import * as reactRouterDom from "react-router-dom"
 
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom")
@@ -74,7 +74,7 @@ describe("<SignIn />", () => {
 
   it("should not display an alert if the credentials are correct", async () => {
     const navigate = vi.fn()
-    ;(useNavigate as vi.Mock).mockReturnValue(navigate)
+    vi.spyOn(reactRouterDom, "useNavigate").mockReturnValue(navigate)
 
     const wrapper = renderWithProviders(<SignIn />, {
       initialEntries: ["/sign-in"]
