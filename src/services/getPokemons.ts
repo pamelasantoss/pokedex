@@ -3,6 +3,7 @@ import { api } from "../lib/axios"
 export interface PokemonListQuery {
   pageIndex: number
   limit: number
+  searchPokemon?: string
 }
 
 export interface PokemonListResponse {
@@ -43,7 +44,8 @@ export interface PokemonDetailsResponse {
 
 export const getPokemonsList = async ({
   pageIndex,
-  limit
+  limit,
+  searchPokemon
 }: PokemonListQuery) => {
   const offset = pageIndex
 
@@ -56,13 +58,15 @@ export const getPokemonsList = async ({
 
   const pokemonResults = pokemonList.data
 
-  const pokemonsDetails: PokemonDetailsResponse[] = await Promise.all(
-    pokemonList.data.results.map(async pokemon => {
-      const pokemonResponse = await fetch(pokemon.url)
+  if (searchPokemon) {
+    try {
+      const pokemonResponse = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${searchPokemon.toLocaleLowerCase()}`
+      )
       const pokemonData = await pokemonResponse.json()
 
-      return {
-        name: pokemon.name,
+      const searchedPokemon: PokemonDetailsResponse = {
+        name: pokemonData.name,
         image: pokemonData.sprites.other.dream_world.front_default,
         id: pokemonData.id,
         height: pokemonData.height,
@@ -72,11 +76,45 @@ export const getPokemonsList = async ({
         moves: pokemonData.moves,
         types: pokemonData.types
       }
-    })
-  )
 
-  return {
-    pokemonResults,
-    pokemonsDetails
+      return {
+        pokemonResults: {
+          count: 1,
+          next: null,
+          previous: null,
+          results: [{ name: searchPokemon, url: pokemonData.url }]
+        },
+        pokemonsDetails: [searchedPokemon]
+      }
+    } catch (error) {
+      console.error(error)
+      throw new Error(`Pokemon "${searchPokemon}" not found. Try again later.`)
+    }
+  } else {
+    const pokemonsDetails: PokemonDetailsResponse[] = await Promise.all(
+      pokemonList.data.results.map(async pokemon => {
+        const pokemonResponse = await fetch(
+          pokemon.url || `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+        )
+        const pokemonData = await pokemonResponse.json()
+
+        return {
+          name: pokemon.name,
+          image: pokemonData.sprites.other.dream_world.front_default,
+          id: pokemonData.id,
+          height: pokemonData.height,
+          weight: pokemonData.weight,
+          forms: pokemonData.forms,
+          abilities: pokemonData.abilities,
+          moves: pokemonData.moves,
+          types: pokemonData.types
+        }
+      })
+    )
+
+    return {
+      pokemonResults,
+      pokemonsDetails
+    }
   }
 }

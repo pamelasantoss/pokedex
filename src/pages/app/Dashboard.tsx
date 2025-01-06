@@ -8,10 +8,13 @@ import { PokemonPagination } from "../../components/pokemonPagination"
 import { z } from "zod"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
+import { useState } from "react"
 
 export function Dashboard() {
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
+
+  const [pokemonSearch, setPokemonSearch] = useState("")
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -21,7 +24,15 @@ export function Dashboard() {
     .parse(searchParams.get("page") ?? "1")
   const itemsPerPage = 10
 
-  const { pokemonsList } = usePokemonList(pageIndex, itemsPerPage)
+  const { pokemonsList } = usePokemonList(
+    pageIndex,
+    itemsPerPage,
+    pokemonSearch
+  )
+
+  function handlePokemonSearch(query: string) {
+    setPokemonSearch(query)
+  }
 
   function handlePaginate(pageIndex: number) {
     setSearchParams(state => {
@@ -43,7 +54,7 @@ export function Dashboard() {
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
 
         <div className="flex w-full">
-          <SearchForm />
+          <SearchForm onSearch={handlePokemonSearch} />
         </div>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-4">
@@ -68,12 +79,14 @@ export function Dashboard() {
           ))}
         </div>
 
-        <PokemonPagination
-          totalCount={pokemonsList?.pokemonResults.count}
-          pageIndex={pageIndex}
-          perPage={itemsPerPage}
-          onPageChange={handlePaginate}
-        />
+        {pokemonsList?.pokemonResults.results.length !== 1 && (
+          <PokemonPagination
+            totalCount={pokemonsList?.pokemonResults.count}
+            pageIndex={pageIndex}
+            perPage={itemsPerPage}
+            onPageChange={handlePaginate}
+          />
+        )}
       </div>
     </>
   )
