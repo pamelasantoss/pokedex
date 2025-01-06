@@ -17,7 +17,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./test/setup.ts'],
     environment: 'jsdom'
-  }
+  },
 } as UserConfig & {
   test: InlineConfig
 })
