@@ -42,7 +42,7 @@ describe("<SignIn />", () => {
     expect(errorMessages).toHaveLength(2)
   })
 
-  it.skip("should be redirect to dashboard page if the credentials are correct", async () => {
+  it("should be redirect to dashboard page if the credentials are correct", async () => {
     const wrapper = renderWithProviders(<SignIn />, {
       initialEntries: ["/sign-in"]
     })
@@ -60,7 +60,7 @@ describe("<SignIn />", () => {
     const submitButton = wrapper.getByRole("button", { name: "Sign in" })
     await user.click(submitButton)
 
-    wrapper.debug()
+    expect(alertMock).not.toHaveBeenCalled()
   })
 
   it("should display an alert if the credentials are incorrect", async () => {

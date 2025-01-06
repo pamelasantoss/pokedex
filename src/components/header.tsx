@@ -1,4 +1,5 @@
 import { Origami } from "lucide-react"
+import { AccountMenu } from "./accountMenu"
 
 export function Header() {
   return (
@@ -9,7 +10,9 @@ export function Header() {
           <span className="font-semibold">Pokedex</span>
         </div>
 
-        <div className="ml-auto flex items-center gap-2">{/* User menu */}</div>
+        <div className="ml-auto flex items-center gap-2">
+          <AccountMenu />
+        </div>
       </div>
     </div>
   )

@@ -1,8 +1,4 @@
-# Vite + React + TS + Tailwind CSS
-
-![GitHub repo size](https://img.shields.io/github/repo-size/pamelasantoss/boilerplate-vite-tailwind?style=for-the-badge)
-![GitHub](https://img.shields.io/github/license/pamelasantoss/boilerplate-vite-tailwind?color=%23387fc6&style=for-the-badge)
-![GitHub last commit](https://img.shields.io/github/last-commit/pamelasantoss/boilerplate-vite-tailwind?color=%23387fc6&style=for-the-badge)
+# Pokedex | Pokemon Search Challenge
 
 ### :bulb: Description
 
