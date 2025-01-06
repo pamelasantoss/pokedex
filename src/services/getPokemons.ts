@@ -87,8 +87,19 @@ export const getPokemonsList = async ({
         pokemonsDetails: [searchedPokemon]
       }
     } catch (error) {
-      console.error(error)
-      throw new Error(`Pokemon "${searchPokemon}" not found. Try again later.`)
+      console.error(
+        `Pokemon "${searchPokemon}" not found. Try again later.`,
+        error
+      )
+      return {
+        pokemonResults: {
+          count: 0,
+          next: null,
+          previous: null,
+          results: []
+        },
+        pokemonsDetails: []
+      }
     }
   } else {
     const pokemonsDetails: PokemonDetailsResponse[] = await Promise.all(

@@ -24,7 +24,7 @@ export function Dashboard() {
     .parse(searchParams.get("page") ?? "1")
   const itemsPerPage = 10
 
-  const { pokemonsList } = usePokemonList(
+  const { pokemonsList, isLoading } = usePokemonList(
     pageIndex,
     itemsPerPage,
     pokemonSearch
@@ -57,36 +57,50 @@ export function Dashboard() {
           <SearchForm onSearch={handlePokemonSearch} />
         </div>
 
-        <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-4">
-          {pokemonsList?.pokemonsDetails.map(pokemon => (
-            <Dialog key={pokemon.id}>
-              <PokemonCard
-                id={pokemon.id}
-                name={pokemon.name}
-                image={pokemon.image}
-              />
-              <PokemonDetail
-                name={pokemon.name}
-                image={pokemon.image}
-                height={pokemon.height}
-                weight={pokemon.weight}
-                forms={pokemon.forms}
-                abilities={pokemon.abilities}
-                moves={pokemon.moves}
-                types={pokemon.types}
-              />
-            </Dialog>
-          ))}
-        </div>
-
-        {pokemonsList?.pokemonResults.results.length !== 1 && (
-          <PokemonPagination
-            totalCount={pokemonsList?.pokemonResults.count}
-            pageIndex={pageIndex}
-            perPage={itemsPerPage}
-            onPageChange={handlePaginate}
-          />
+        {pokemonsList?.pokemonsDetails &&
+        pokemonsList?.pokemonsDetails.length > 0 ? (
+          <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-4">
+            {pokemonsList.pokemonsDetails.map(pokemon => (
+              <Dialog key={pokemon.id}>
+                <PokemonCard
+                  id={pokemon.id}
+                  name={pokemon.name}
+                  image={pokemon.image}
+                />
+                <PokemonDetail
+                  name={pokemon.name}
+                  image={pokemon.image}
+                  height={pokemon.height}
+                  weight={pokemon.weight}
+                  forms={pokemon.forms}
+                  abilities={pokemon.abilities}
+                  moves={pokemon.moves}
+                  types={pokemon.types}
+                />
+              </Dialog>
+            ))}
+          </div>
+        ) : (
+          !isLoading && (
+            <div className="flex py-10 flex-col items-center justify-center gap-2">
+              <h1 className="text-4xl font-bold">
+                Sorry, we could find your Pokemon...
+              </h1>
+              <p className="text-accent-foreground">Try again!</p>
+            </div>
+          )
         )}
+
+        {pokemonsList?.pokemonsDetails &&
+          pokemonsList?.pokemonsDetails.length > 0 &&
+          pokemonsList?.pokemonResults.results.length !== 1 && (
+            <PokemonPagination
+              totalCount={pokemonsList?.pokemonResults.count}
+              pageIndex={pageIndex}
+              perPage={itemsPerPage}
+              onPageChange={handlePaginate}
+            />
+          )}
       </div>
     </>
   )
