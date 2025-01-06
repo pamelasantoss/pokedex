@@ -3,6 +3,15 @@ import { SignIn } from "../SignIn"
 import userEvent from "@testing-library/user-event"
 import { renderWithProviders } from "../../../testHelper"
 import { vi } from "vitest"
+import { useNavigate } from "react-router-dom"
+
+vi.mock("react-router-dom", async () => {
+  const actual = await vi.importActual("react-router-dom")
+  return {
+    ...actual,
+    useNavigate: vi.fn()
+  }
+})
 
 const alertMock = vi.spyOn(window, "alert").mockImplementation(() => {})
 
@@ -42,27 +51,6 @@ describe("<SignIn />", () => {
     expect(errorMessages).toHaveLength(2)
   })
 
-  it("should be redirect to dashboard page if the credentials are correct", async () => {
-    const wrapper = renderWithProviders(<SignIn />, {
-      initialEntries: ["/sign-in"]
-    })
-
-    const user = userEvent.setup()
-
-    const usernameField = wrapper.getByRole("textbox", {
-      name: "Your username"
-    })
-    await user.type(usernameField, "admin")
-
-    const passwordField = wrapper.getByLabelText("Your password")
-    await user.type(passwordField, "admin")
-
-    const submitButton = wrapper.getByRole("button", { name: "Sign in" })
-    await user.click(submitButton)
-
-    expect(alertMock).not.toHaveBeenCalled()
-  })
-
   it("should display an alert if the credentials are incorrect", async () => {
     const wrapper = renderWithProviders(<SignIn />, {
       initialEntries: ["/sign-in"]
@@ -82,5 +70,29 @@ describe("<SignIn />", () => {
     await user.click(submitButton)
 
     expect(alertMock).toHaveBeenCalledWith("Wrong credentials!")
+  })
+
+  it("should not display an alert if the credentials are correct", async () => {
+    const navigate = vi.fn()
+    ;(useNavigate as vi.Mock).mockReturnValue(navigate)
+
+    const wrapper = renderWithProviders(<SignIn />, {
+      initialEntries: ["/sign-in"]
+    })
+
+    const user = userEvent.setup()
+
+    const usernameField = wrapper.getByRole("textbox", {
+      name: "Your username"
+    })
+    await user.type(usernameField, "admin")
+
+    const passwordField = wrapper.getByLabelText("Your password")
+    await user.type(passwordField, "admin")
+
+    const submitButton = wrapper.getByRole("button", { name: "Sign in" })
+    await user.click(submitButton)
+
+    expect(navigate).toHaveBeenCalledWith("/")
   })
 })
