@@ -9,6 +9,7 @@ import { z } from "zod"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
 import { useState } from "react"
+import { PokemonCardLoading } from "@/components/pokemonCardLoading"
 
 export function Dashboard() {
   const { isAuthenticated } = useAuth()
@@ -56,6 +57,12 @@ export function Dashboard() {
         <div className="flex w-full">
           <SearchForm onSearch={handlePokemonSearch} />
         </div>
+
+        {isLoading && (
+          <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-4">
+            <PokemonCardLoading items={itemsPerPage} />
+          </div>
+        )}
 
         {pokemonsList?.pokemonsDetails &&
         pokemonsList?.pokemonsDetails.length > 0 ? (
