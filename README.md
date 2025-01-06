@@ -14,7 +14,7 @@ If you want to know more about a Pokémon from the list, just click on the **Mor
 
 ![Details modal](details-modal.png)
 
-This application is also fully responsive, so you can use it on smaller devices. Enjoy! You can access it [here](https://pokedex-pqzgl8iti-pamela-santos-projects.vercel.app/sign-in)
+This application is also fully responsive, so you can use it on smaller devices. Enjoy! You can access it [here](https://pokedex-drab-sigma-94.vercel.app/sign-in)
 
 ### :computer: APIs
 - [PokéAPI](https://pokeapi.co/)
