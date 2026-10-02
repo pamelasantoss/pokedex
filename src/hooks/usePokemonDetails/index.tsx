@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import { getPokemonDetails } from "../../services/getPokemonDetails"
 
 export function usePokemonDetails(name: string) {
-  const formatPokemonName = name.toLowerCase()
+  const formatPokemonName = name.toLowerCase().trim()
 
   return useQuery({
     queryKey: ["pokemon-details", formatPokemonName],

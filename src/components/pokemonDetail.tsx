@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle
 } from "./ui/dialog"
-import { PokemonDetailsResponse } from "../services/getPokemons"
+import { PokemonDetailsResponse } from "../services/getPokemonDetails"
 
 export function PokemonDetail({
   name,

@@ -62,7 +62,7 @@ export const getPokemonDetails = async (
   name: string
 ): Promise<PokemonDetailsResponse> => {
   const response = await api.get<PokemonDetailsApiResponse>(
-    `/pokemon/${name.toLowerCase()}`
+    `/pokemon/${name.toLowerCase().trim()}`
   )
 
   const pokemonData = response.data
