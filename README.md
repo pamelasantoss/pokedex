@@ -2,7 +2,7 @@
 
 ### :bulb: Description
 
-This application, called *Pokedex*, is a Pokemon search tool where you can look for any Pokemon you want. To access the application, you need to have login credentials.
+This application, called _Pokedex_, is a Pokemon search tool where you can look for any Pokemon you want. To access the application, you need to have login credentials.
 
 ![Sign-in page](sign-in-page.png)
 
@@ -17,6 +17,7 @@ If you want to know more about a Pokémon from the list, just click on the **Mor
 This application is also fully responsive, so you can use it on smaller devices. Enjoy! You can access it [here](https://pokedex-drab-sigma-94.vercel.app/sign-in)
 
 ### :computer: APIs
+
 - [PokéAPI](https://pokeapi.co/)
 
 ### :rocket: Technologies
@@ -34,25 +35,37 @@ I chose Shadcn UI to help me with most of the component designs. I have used it 
 I wasn't able to create tests for all components due to time constraints, but I plan to improve this in the future.
 
 ### :hammer: Features
+
 - [ ] Improve the detailed information for each Pokemon.
 - [ ] Improve Pokemon search functionality.
 - [ ] Improve responsive design.
 - [ ] Increase unit tests and add E2E tests.
 
+### :chart_with_upwards_trend: Next improvements
+
+- [ ] Replace the current local login flow with a secure authentication system using a backend and session/token validation.
+- [ ] Add centralized handling for API failures, retries, and more robust empty/error states across the dashboard.
+- [ ] Improve search UX with debouncing, suggestions, and better empty/error states for Pokémon queries.
+- [ ] Increase accessibility and keyboard navigation for the full experience, including forms, modals, and pagination.
+- [ ] Add personalization features such as favorites, saved filters, and Pokémon comparison.
+
 ### :heavy_check_mark: Installation
 
 - You need to have `node` version 19 or higher installed on your system.
-- Clone this repository and then run `npm run install` to install the project dependencies.
+- Clone this repository and then run `npm install` to install the project dependencies.
 - Run `npm run dev` to start the development server, and view the project running on `:5173` localhost port.
 - Run `npm run build` and then `npm run preview` to see the production version.
 - Run `npm run test` to execute the unit tests.
 
 ### :heavy_check_mark: How to access
+
 - After running the project, you'll be redirected to the `/sign-in` route. Use the credentials provided at the end of this document to log in and access the dashboard.
 - Once logged in, you will be redirected to the dashboard, where you can search for Pokémon, view details, and paginate through the list. You can also log out at any time using the log-out button in the top right corner.
+
 ---
 
 #### :key: Credentials
+
 ```
 username: admin
 password: admin
