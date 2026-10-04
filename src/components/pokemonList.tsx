@@ -47,7 +47,7 @@ export function PokemonList({
          */}
         {query.isFetching && (
           <div className="absolute right-0 -top-8 text-sm text-muted-foreground">
-            Carregando...
+            Loading...
           </div>
         )}
 
